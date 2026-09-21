@@ -82,6 +82,7 @@ Output:
 ```
 dist/chrome/                       load this unpacked in Chrome
 dist/firefox/                      the Firefox build
+dist/safari/                       synced into safari/ automatically
 dist/reel-ban-chrome-1.0.0.zip
 dist/reel-ban-firefox-1.0.0.zip    upload this to AMO for signing
 ```
@@ -120,6 +121,42 @@ point.
 
 Chrome will show a "Disable developer mode extensions" prompt on each start.
 Dismiss it; it does not remove anything.
+
+## Install — Safari
+
+Safari extensions have to live inside a macOS app, so `xcrun
+safari-web-extension-converter` has already been run and the project is at
+`safari/`. `node build.js` syncs the built files into it, so run that first.
+
+1. `node build.js`
+2. Open `safari/Reel Ban/Reel Ban.xcodeproj`.
+3. **Sign in with an Apple ID**: Xcode → Settings → Accounts → **+** → Apple
+   ID. A free account is enough; no paid developer program needed.
+4. Select the **Reel Ban** target → *Signing & Capabilities* → set **Team** to
+   your personal team. Do the same for the **Reel Ban Extension** target.
+5. Product → **Run** once. The app launches and registers the extension.
+6. Move the built app to `/Applications` and keep it there — Safari only keeps
+   the extension for as long as the containing app exists.
+7. Safari → Settings → **Extensions** → tick **Reel Ban**.
+8. Still in Extensions, set site access to **Always Allow on Every Website**
+   (or Always Allow for youtube.com and facebook.com individually). Safari
+   defaults to Ask, which means no blocking until you click through a prompt.
+9. Tick **Allow in Private Browsing** on the same panel.
+
+Step 3 is not optional. Without an Apple ID the app is unsigned, and Safari
+then requires Develop → **Allow Unsigned Extensions**, which resets every time
+Safari restarts — which defeats the entire point of this extension.
+
+Safari ignores `options_ui.open_in_tab`, so settings are reached through the
+toolbar button instead. That button is in all three builds.
+
+To regenerate the project from scratch after a manifest change:
+
+```
+xcrun safari-web-extension-converter dist/safari --macos-only \
+  --project-location safari --app-name "Reel Ban" \
+  --bundle-identifier local.reelban --copy-resources --force
+```
 
 ## Install — Firefox
 
@@ -228,6 +265,41 @@ Work through this after installing, in each browser.
 
 ---
 
+## What this does and does not cover
+
+This is a per-browser, per-profile block. There is no device-wide equivalent
+on macOS that can see URL paths, because a system-level filter cannot read
+inside HTTPS — which is exactly what distinguishing `/shorts/abc` from
+`/watch?v=abc` requires. Anything that works at the OS or DNS layer can only
+block `youtube.com` entirely.
+
+So full coverage means installing in each browser:
+
+| | covered | how |
+| --- | --- | --- |
+| Firefox | yes | signed `.xpi` |
+| Safari | yes | Xcode app wrapper |
+| Chrome / Edge / Brave / Arc | yes | `dist/chrome`, load unpacked |
+| A browser installed next week | **no** | install it there too |
+| Private / Incognito windows | **only if explicitly allowed** | see below |
+| Other user accounts or Firefox profiles | **no** | separate install each |
+| iPhone, iPad, any other device | **no** | — |
+| The YouTube and Facebook *apps* | **no** | websites only |
+
+**Private windows are off by default in every browser.** This is the single
+most likely way for the block to quietly not apply:
+
+- Firefox: `about:addons` → Reel Ban → Details → **Run in Private Windows: Allow**
+- Safari: Settings → Extensions → Reel Ban → **Allow in Private Browsing**
+- Chrome: `chrome://extensions` → Reel Ban → Details → **Allow in Incognito**
+
+Do all of these before handing the machine over for PIN setup.
+
+**Mobile-layout pages are partly covered.** `m.youtube.com` and
+`m.facebook.com` match the content script, so the redirects work, but the
+hiding CSS targets desktop element names — Shorts shelves will still be
+visible there even though tapping one lands in the normal player.
+
 ## Known limits
 
 **The uninstall page cannot be a local file.** `chrome.runtime.setUninstallURL`
@@ -284,7 +356,8 @@ src/common/gate.js      lock/challenge/cooldown/unlock state machine
 src/content/rules.js    URL matchers and the hiding CSS
 src/content/blocker.js  document_start content script
 src/background.js       first-run setup page, uninstall URL
-src/pages/              setup and options pages
+src/pages/              setup, options and toolbar popup pages
+safari/                 Xcode project wrapping the extension for Safari
 docs/uninstalled.html   the page shown after uninstall, if published
 build.js                bundles, generates manifests and icons, zips
 test.js                 runs test/logic.test.cjs

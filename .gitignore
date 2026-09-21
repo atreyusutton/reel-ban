@@ -2,3 +2,7 @@ dist/
 node_modules/
 test/.bundle.cjs
 .DS_Store
+safari/**/xcuserdata/
+safari/**/*.xcuserstate
+safari/Reel Ban/Reel Ban Extension/Resources/
+DerivedData/
