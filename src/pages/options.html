@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reel Ban — Settings</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<main>
+  <h1>Reel Ban</h1>
+  <p class="sub" id="sub">Short-form video is being stripped out of YouTube and Facebook.</p>
+
+  <!-- Gate -->
+  <section id="panel-setup" class="card hidden">
+    <h2>Not set up yet</h2>
+    <p>No PIN has been chosen, so blocking is running on defaults and anyone can change it.</p>
+    <div class="actions"><button id="go-setup" class="primary" type="button">Run setup</button></div>
+  </section>
+
+  <section id="panel-locked" class="card hidden">
+    <h2>Locked</h2>
+    <p class="hint" style="margin-bottom:16px">Enter the PIN to begin. The correct PIN does not unlock anything immediately — it starts a wait.</p>
+    <div class="field">
+      <label for="pin">PIN</label>
+      <input id="pin" class="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4">
+    </div>
+    <div class="actions"><button id="submit-pin" class="primary" type="button">Continue</button></div>
+    <p id="locked-msg" class="msg"></p>
+  </section>
+
+  <section id="panel-lockout" class="card hidden">
+    <h2>Too many wrong attempts</h2>
+    <p class="hint">Try again in:</p>
+    <div class="countdown" id="lockout-countdown">—</div>
+    <p class="hint">The wait grows after each wrong PIN and survives closing the browser.</p>
+  </section>
+
+  <section id="panel-challenge" class="card hidden">
+    <h2>Type this sentence</h2>
+    <p class="hint">Exactly as written, by hand. Pasting is disabled.</p>
+    <blockquote id="challenge-text" style="margin:14px 0;padding:12px 14px;border-left:3px solid var(--line);color:var(--muted)"></blockquote>
+    <div class="field">
+      <label for="challenge-input" class="hidden">Your typing</label>
+      <textarea id="challenge-input" spellcheck="false" autocomplete="off"></textarea>
+    </div>
+    <div class="actions">
+      <button id="submit-challenge" class="primary" type="button">Start the wait</button>
+      <button id="cancel-challenge" type="button">Cancel</button>
+    </div>
+    <p id="challenge-msg" class="msg"></p>
+  </section>
+
+  <section id="panel-cooldown" class="card hidden">
+    <h2>Cooldown</h2>
+    <p class="hint">Settings unlock in:</p>
+    <div class="countdown" id="cooldown-countdown">—</div>
+    <p class="hint">Closing the browser does not skip this. You can leave the page; come back when it is up.</p>
+    <div class="actions"><button id="cancel-cooldown" type="button">Cancel and re-lock</button></div>
+  </section>
+
+  <section id="panel-unlocked" class="card hidden">
+    <h2>Unlocked</h2>
+    <p class="hint">Re-locks after 10 minutes of inactivity — <span id="relock-in">—</span> left.</p>
+    <div class="actions"><button id="lock-now" type="button">Lock now</button></div>
+  </section>
+
+  <hr>
+
+  <!-- Settings -->
+  <form id="settings">
+    <fieldset id="settings-fields" disabled>
+      <section class="card">
+        <legend>YouTube</legend>
+        <div class="row">
+          <input type="checkbox" id="yt-enabled">
+          <label for="yt-enabled">Block Shorts</label>
+        </div>
+        <div class="field">
+          <label for="yt-mode">When a Shorts URL is opened</label>
+          <select id="yt-mode">
+            <option value="redirect">Open the same video in the normal player</option>
+            <option value="home">Bounce to the YouTube home page</option>
+          </select>
+        </div>
+        <div class="row">
+          <input type="checkbox" id="yt-hide">
+          <label for="yt-hide">Hide entry points — sidebar item, Shorts shelves, Shorts thumbnails, channel Shorts tab</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <legend>Facebook</legend>
+        <div class="row">
+          <input type="checkbox" id="fb-enabled">
+          <label for="fb-enabled">Bounce <code>/reel/</code> and <code>/reels/</code> back to the feed</label>
+        </div>
+        <div class="row">
+          <input type="checkbox" id="fb-nav">
+          <label for="fb-nav">Hide the Reels link in the navigation</label>
+        </div>
+        <div class="row">
+          <input type="checkbox" id="fb-tray">
+          <label for="fb-tray">Hide Reels posts in the feed
+            <span class="hint">Turn this off first if anything in the feed looks like it is missing.</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <legend>Fixed at setup</legend>
+        <p class="hint">Chosen once and not editable: cooldown is <strong id="fixed-cooldown">—</strong>, and the typing challenge sentence. Changing either means a fresh install.</p>
+      </section>
+
+      <div class="actions">
+        <button id="save" class="primary" type="submit">Save</button>
+      </div>
+      <p id="settings-msg" class="msg"></p>
+    </fieldset>
+  </form>
+</main>
+<script src="options.js"></script>
+</body>
+</html>

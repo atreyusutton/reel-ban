@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reel Ban was removed</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f6f6f7; --fg:#16181d; --muted:#5e636e; --line:#dcdee3; --accent:#b3261e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#15171a; --fg:#e8eaed; --muted:#9aa0a9; --line:#333840; --accent:#e5534b; }
+  }
+  body { margin:0; padding:48px 16px; background:var(--bg); color:var(--fg);
+         font:16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:560px; margin:0 auto; }
+  h1 { font-size:26px; margin:0 0 20px; letter-spacing:-0.01em; }
+  h2 { font-size:17px; margin:32px 0 10px; }
+  p { margin:0 0 14px; }
+  ul { margin:0 0 14px; padding-left:22px; }
+  li { margin-bottom:6px; }
+  .note { border-left:3px solid var(--accent); padding:4px 0 4px 16px; color:var(--muted); }
+  code { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; background:rgba(128,128,128,.15);
+         padding:1px 5px; border-radius:4px; font-size:.9em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Reel Ban was just removed</h1>
+
+  <p class="note">This page opened because the extension was uninstalled. That was a deliberate action taken a moment ago.</p>
+
+  <h2>What came back</h2>
+  <ul>
+    <li>YouTube Shorts — the swipe feed, the sidebar entry, the shelves on the home page and in search results.</li>
+    <li>Facebook Reels — the navigation link and the reels in the feed.</li>
+  </ul>
+
+  <h2>If that was not the plan</h2>
+  <p>Reinstalling takes about a minute, and the PIN holder has to set it up again:</p>
+  <ul>
+    <li><strong>Chrome</strong> — open <code>chrome://extensions</code>, turn on Developer mode, click <em>Load unpacked</em>, choose the <code>dist/chrome</code> folder.</li>
+    <li><strong>Firefox</strong> — open <code>about:addons</code> and install the signed <code>.xpi</code> again.</li>
+  </ul>
+  <p>The PIN, the cooldown length and the typing sentence were stored with the extension and are gone. Setup starts from scratch.</p>
+</main>
+</body>
+</html>

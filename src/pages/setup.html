@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reel Ban — Setup</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<main>
+  <h1>Reel Ban setup</h1>
+  <p class="sub">This page is for the person holding the PIN, not the person being blocked.</p>
+
+  <section id="already" class="card hidden">
+    <h2>Already set up</h2>
+    <p>A PIN has already been chosen on this browser profile. Setup cannot be run again.</p>
+    <p class="hint">To change anything, open the options page and enter the PIN. There is no way to reset the PIN from here.</p>
+    <div class="actions"><button id="to-options" class="primary" type="button">Open settings</button></div>
+  </section>
+
+  <form id="form" class="hidden">
+    <section class="card">
+      <h2>1. Choose a 4-digit PIN</h2>
+      <p class="hint" style="margin-bottom:16px">There is no recovery. If this is forgotten, the only way back is removing the extension.</p>
+      <div class="field">
+        <label for="pin1">PIN</label>
+        <input id="pin1" class="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4" pattern="[0-9]{4}">
+      </div>
+      <div class="field">
+        <label for="pin2">Repeat the PIN</label>
+        <input id="pin2" class="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4" pattern="[0-9]{4}">
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Cooldown</h2>
+      <p class="hint" style="margin-bottom:16px">After the PIN and the sentence are both entered correctly, settings stay locked for this long. This is the part that actually works, and it <strong>cannot be changed later</strong> — only chosen now.</p>
+      <div class="field">
+        <label for="cooldown">Minutes to wait</label>
+        <input id="cooldown" type="number" min="0" max="1440" step="1" value="30">
+        <p class="hint">30 is the default. 0 disables the wait entirely, which is not recommended.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Typing challenge</h2>
+      <p class="hint" style="margin-bottom:16px">This sentence must be typed out by hand, exactly, before the cooldown starts. Pasting is blocked. Also fixed once set.</p>
+      <div class="field">
+        <label for="challenge">Sentence</label>
+        <textarea id="challenge" spellcheck="false"></textarea>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. Confirm</h2>
+      <p>Once saved, the PIN, the cooldown length and the sentence are permanent for this installation.</p>
+      <div class="actions">
+        <button id="save" class="primary" type="submit">Save and lock</button>
+      </div>
+      <p id="msg" class="msg"></p>
+    </section>
+  </form>
+</main>
+<script src="setup.js"></script>
+</body>
+</html>
