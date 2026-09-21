@@ -173,6 +173,10 @@ free and does not put anything in the public directory.
 5. Upload the zip. `browser_specific_settings.gecko.id` is already set from
    `build.config.json`, which is what lets Mozilla sign successive versions as
    the same add-on.
+   If AMO rejects the upload with *The "data_collection_permissions" property
+   is missing*, you are on an older build — that key is generated into the
+   Firefox manifest by `build.js`, declared as `none` because the extension
+   stores everything locally and transmits nothing. Rebuild and re-upload.
 6. Signing takes a minute or two. Download the resulting `.xpi`.
 7. In Firefox: `about:addons` → the gear icon → **Install Add-on From File**
    → choose the `.xpi`.

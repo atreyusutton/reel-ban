@@ -124,7 +124,14 @@ function manifest(browser) {
     ...base,
     background: { scripts: ['background.js'] },
     browser_specific_settings: {
-      gecko: { id: config.geckoId, strict_min_version: '121.0' },
+      gecko: {
+        id: config.geckoId,
+        strict_min_version: '121.0',
+        // Required by AMO for every new submission. Reel Ban stores the PIN
+        // hash and the config in local storage and sends nothing anywhere,
+        // so "none" is the accurate declaration. It must be the only entry.
+        data_collection_permissions: { required: ['none'] },
+      },
     },
   };
 }
